@@ -47,3 +47,51 @@ async function createEvent(deviceRecord) {
         });
 
 }
+
+module.exports.list = (jsonUser) => {
+
+    return new Promise((resolve, reject) => {
+
+        MongoClient.connect(dataBaseRoute, {
+            native_parser: true,
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        },
+            function (err, client) {
+                if (err) throw err;
+
+                var db = client.db(ingenieriaCollection);
+
+                let result = {};
+                db.collection('eventos').find({
+                    // 'time': {
+                    //     '$gte': isoString
+                    // }
+                }).limit(50).toArray(function (err, docs) {
+
+                    if (err) {
+                        result.response = 0;
+                        result.message = `Error al buscar records  ${err}`
+                        client.close();
+                        //In case of an error
+                        reject(result);
+                    } else if (docs.length === 0) {
+                        result.response = -1,
+                            result.message = 'No existen warnings en la BD'
+                        client.close();
+                        reject(result)
+                    } else {
+                        result.response = 1;
+                        result.data = docs;
+                        result.message = `Records encontrados exitosamente`
+                        //Return the new result
+                        client.close();
+                        resolve(result);
+
+                    }
+
+                });
+            });
+
+    });
+}

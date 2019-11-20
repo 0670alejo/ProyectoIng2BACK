@@ -45,3 +45,16 @@ app.post('/saveRestaurant', function(req, res) {
     let result = restaurantController.create(req.body);
     res.send(JSON.stringify(result, null, 2));
 });
+
+app.post('/listEvents', function(req, res) {
+    eventController.list(req.body).then((result) => {
+        res.status(201).send({
+            result
+        })
+    }).catch(function(e) {
+        res.status(422).send({
+            e
+        });
+    });
+
+});

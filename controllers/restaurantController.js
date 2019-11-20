@@ -11,11 +11,10 @@ const ingenieriaCollection = properties.get('main.mongo.Ingenieria');
 const eventos = properties.get('main.mongo.eventos');
 
 module.exports.create = (jsonRecord) => {
-    return createEvent(jsonRecord);
+    return createRestaurant(jsonRecord);
 };
 
-async function createEvent(deviceRecord) {
-    console.log(deviceRecord.name)
+async function createRestaurant(deviceRecord) {
     MongoClient.connect(dataBaseRoute, {
             native_parser: true,
             useNewUrlParser: true,
@@ -24,15 +23,22 @@ async function createEvent(deviceRecord) {
         function(err, client) {
             if (err) throw err;
             var db = client.db(ingenieriaCollection);
-            db.collection('eventos').insertOne({
+            db.collection('participantes').insertOne({
+                    nickname: deviceRecord.nickname,
+                    password: deviceRecord.password,
                     name: deviceRecord.name,
-                    place: deviceRecord.place
+                    address: deviceRecord.address,
+                    phone: deviceRecord.phone,
+                    city: deviceRecord.city,
+                    product: deviceRecord.product,
+                    price: deviceRecord.price,
+                    event: deviceRecord.event
                 },
                 (err, resultado) => {
                     let result = {};
                     if (err) {
                         result.response = 0;
-                        result.message = `Error al crear el usuario ${err}`
+                        result.message = `Error al crear el participante ${err}`
                             //In case of an error
                         return (result);
                     } else {

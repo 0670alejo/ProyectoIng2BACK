@@ -1,11 +1,12 @@
-const express = require('express')
+const express = require('express');
 const app = express()
 const bodyParser = require('body-parser');
 
 const eventController = require('../controllers/eventController.js');
+const restaurantController = require('../controllers/restaurantController.js');
 
 
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Credentials', true);
     res.header('Access-Control-Allow-Origin', req.headers.origin);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -35,18 +36,22 @@ app.listen(3001, () => {
     console.log('Started on port 3001');
 });
 
-app.post('/saveEvent', function (req, res) {
+app.post('/saveEvent', function(req, res) {
     let result = eventController.create(req.body);
-
     res.send(JSON.stringify(result, null, 2));
 });
 
-app.post('/listEvents', function (req, res) {
+app.post('/saveRestaurant', function(req, res) {
+    let result = restaurantController.create(req.body);
+    res.send(JSON.stringify(result, null, 2));
+});
+
+app.post('/listEvents', function(req, res) {
     eventController.list(req.body).then((result) => {
         res.status(201).send({
             result
         })
-    }).catch(function (e) {
+    }).catch(function(e) {
         res.status(422).send({
             e
         });

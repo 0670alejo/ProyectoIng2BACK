@@ -53,3 +53,13 @@ app.post('/listEvents', function (req, res) {
     });
 
 });
+
+app.post('/deleteEvent', function (req, res) {
+    let result = eventController.delete(req.body);
+    res.send(JSON.stringify(result, null, 2));
+});
+
+app.post('/updateEvent', function (req, res) {
+    let result = eventController.update(req.body);
+    res.send(JSON.stringify(result, null, 2));
+});

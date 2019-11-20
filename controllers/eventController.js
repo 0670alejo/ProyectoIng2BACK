@@ -95,3 +95,76 @@ module.exports.list = (jsonUser) => {
 
     });
 }
+
+module.exports.delete = (jsonRecord) => {
+    return deleteEvent(jsonRecord);
+};
+
+async function deleteEvent(deviceRecord) {
+    console.log(deviceRecord.name)
+    MongoClient.connect(dataBaseRoute, {
+        native_parser: true,
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    },
+        function (err, client) {
+            if (err) throw err;
+            var db = client.db(ingenieriaCollection);
+            db.collection('eventos').deleteOne({
+                name: deviceRecord.name,
+            },
+                (err, resultado) => {
+                    let result = {};
+                    if (err) {
+                        result.response = 0;
+                        result.message = `Error al borrar el usuario ${err}`
+                        //In case of an error
+                        return (result);
+                    } else {
+                        result.response = 1;
+                        result.message = `Record borrado exitosamente`
+                        //Return the new result
+                        return (result);
+                    }
+
+                });
+            client.close();
+        });
+
+}
+
+module.exports.update = (jsonRecord) => {
+    return updateEvent(jsonRecord);
+};
+
+async function updateEvent(deviceRecord) {
+    MongoClient.connect(dataBaseRoute, {
+        native_parser: true,
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    },
+        function (err, client) {
+            if (err) throw err;
+            var db = client.db(ingenieriaCollection);
+            db.collection('eventos').updateOne({
+                name: deviceRecord.name,
+            }, { $set: { "place": deviceRecord.place } },
+                (err, resultado) => {
+                    let result = {};
+                    if (err) {
+                        result.response = 0;
+                        result.message = `Error al borrar el usuario ${err}`
+                        //In case of an error
+                        return (result);
+                    } else {
+                        result.response = 1;
+                        result.message = `Record borrado exitosamente`
+                        //Return the new result
+                        return (result);
+                    }
+
+                });
+            client.close();
+        });
+
+}

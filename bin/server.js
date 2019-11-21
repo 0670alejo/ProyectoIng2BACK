@@ -59,12 +59,35 @@ app.post('/listEvents', function(req, res) {
 
 });
 
-app.post('/deleteEvent', function (req, res) {
+app.post('/deleteEvent', function(req, res) {
     let result = eventController.delete(req.body);
     res.send(JSON.stringify(result, null, 2));
 });
 
-app.post('/updateEvent', function (req, res) {
+app.post('/updateEvent', function(req, res) {
     let result = eventController.update(req.body);
+    res.send(JSON.stringify(result, null, 2));
+});
+
+app.post('/listRestaurant', function(req, res) {
+    restaurantController.list(req.body).then((result) => {
+        res.status(201).send({
+            result
+        })
+    }).catch(function(e) {
+        res.status(422).send({
+            e
+        });
+    });
+
+});
+
+app.post('/deleteRestaurant', function(req, res) {
+    let result = restaurantController.delete(req.body);
+    res.send(JSON.stringify(result, null, 2));
+});
+
+app.post('/updateRestaurant', function(req, res) {
+    let result = restaurantController.update(req.body);
     res.send(JSON.stringify(result, null, 2));
 });

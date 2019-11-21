@@ -151,28 +151,28 @@ async function updateRestaurante(deviceRecord) {
         },
         function(err, client) {
             if (err) throw err;
-            var db = client.participantes(ingenieriaCollection);
+            var db = client.db(ingenieriaCollection);
             db.collection('participantes').updateOne({
-                    nickname: deviceRecord.nickname,
-                    password: deviceRecord.password,
+                    //nickname: deviceRecord.nickname
+                    // password: deviceRecord.password,
                     name: deviceRecord.name,
-                    address: deviceRecord.address,
-                    phone: deviceRecord.phone,
-                    city: deviceRecord.city,
-                    product: deviceRecord.product,
-                    price: deviceRecord.price,
-                    event: deviceRecord.event
+                    // address: deviceRecord.address,
+                    // phone: deviceRecord.phone,
+                    // city: deviceRecord.city,
+                    // product: deviceRecord.product,
+                    // price: deviceRecord.price,
+                    // event: deviceRecord.event
                 }, {
                     $set: {
-                        "nickname": deviceRecord.nickname,
-                        "password": deviceRecord.password,
+                        // "nickname": deviceRecord.nickname,
+                        // "password": deviceRecord.password,
                         "name": deviceRecord.name,
                         "address": deviceRecord.address,
                         "phone": deviceRecord.phone,
                         "city": deviceRecord.city,
-                        "product": deviceRecord.product,
-                        "price": deviceRecord.price,
-                        "event": deviceRecord.event
+                        // "product": deviceRecord.product,
+                        // "price": deviceRecord.price,
+                        // "event": deviceRecord.event
                     }
                 },
                 (err, resultado) => {
